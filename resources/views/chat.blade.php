@@ -1,6 +1,7 @@
 @extends('layouts.app')
-@section('body')
+@section('content')
+ <div id="app">
     <h1>ChatRoom</h1>
-    <example></example>
-
+    <example-component></example-component>
+</div>
 @endsection
