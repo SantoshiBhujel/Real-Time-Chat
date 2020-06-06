@@ -33,17 +33,24 @@ const app = new Vue({
     el: '#app',
     data: {
         messages: []
-    },
+    }, 
     methods: {
         addMessage(message) {
             // Add to existing messages
             this.messages.push(message);
 
+            // Store sent message to the database
+            axios.post('/messages',message).then((response)=> //calls the route::post('/messages)
+            {                            
+
+            }).catch((error)=>{
+                console.log(error.response.data)
+            });
         }
     },
     created() {  //database ma message cha vane page load hune bela nai sabai msg load garcha (mount garcha)
         axios.get('/messages').then(response => { //.get('/messages') vaneko routes ko Route::get('/messages',); method call gareko 
-            this.messages = response.data; //Route::get('/messages',); ley return gareko value save garcha 
+         this.messages = response.data; //Route::get('/messages',); ley return gareko value save garcha 
         });
     }
 });

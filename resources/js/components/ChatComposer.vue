@@ -1,5 +1,6 @@
 <template>
     <div class="chat-composer">
+        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <input type="text" placeholder="Start typing your message...." v-model="messageText" @keyup.enter="sendMessage">
         <button class="btn btn-primary" @click="sendMessage"> Send </button>
     </div>

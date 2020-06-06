@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function index()
     {
@@ -20,14 +21,20 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $user=Auth::user();
-        //$message= $request->get('message');
-        // $message= new Message([
-        //     'message'=> $request->get('message')
-        // ]);
-        // $user->messages()->save($message);
-        $user->messages()->create([
-            'message'=>$request->get('message')
+        $message= new Message([
+            'message'=> $request->message
         ]);
-        return ['status'=>'OK'];
+        
+
+        if($user->messages()->save($message))
+        {
+            return ['status' => 'OK'];
+        }
+        else
+        {
+            return response()->json([
+                'status' => 'Error!'
+            ]);
+        }
     }
 }

@@ -29,7 +29,6 @@ Route::get('/chat', function () {
 
 Route::get('/messages', 'MessageController@index');
 
-
 Route::post('/messages','MessageController@store' );
 
 Auth::routes();

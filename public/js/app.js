@@ -1915,6 +1915,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38304,6 +38305,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "chat-composer" }, [
     _c("input", {
+      attrs: {
+        type: "hidden",
+        name: "_token",
+        value: "<?php echo csrf_token(); ?>"
+      }
+    }),
+    _vm._v(" "),
+    _c("input", {
       directives: [
         {
           name: "model",
@@ -50679,7 +50688,12 @@ var app = new Vue({
   methods: {
     addMessage: function addMessage(message) {
       // Add to existing messages
-      this.messages.push(message);
+      this.messages.push(message); // Store sent message to the database
+
+      axios.post('/messages', message).then(function (response) //calls the route::post('/messages)
+      {})["catch"](function (error) {
+        console.log(error.response.data);
+      });
     }
   },
   created: function created() {
