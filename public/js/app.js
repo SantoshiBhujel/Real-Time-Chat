@@ -50677,7 +50677,9 @@ var app = new Vue({
     messages: []
   },
   methods: {
-    addMessage: function addMessage(message) {// Add to existing messages
+    addMessage: function addMessage(message) {
+      // Add to existing messages
+      this.messages.push(message);
     }
   },
   created: function created() {

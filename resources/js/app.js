@@ -37,7 +37,7 @@ const app = new Vue({
     methods: {
         addMessage(message) {
             // Add to existing messages
-          
+            this.messages.push(message);
 
         }
     },
