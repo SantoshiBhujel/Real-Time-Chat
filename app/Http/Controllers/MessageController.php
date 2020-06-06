@@ -28,7 +28,7 @@ class MessageController extends Controller
 
         if($user->messages()->save($message))
         {
-            return ['status' => 'OK'];
+            return  response()->json(['status' => 'OK']);
         }
         else
         {
