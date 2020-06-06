@@ -31,24 +31,19 @@ Vue.component('chat-composer', require('./components/ChatComposer.vue').default)
 
 const app = new Vue({
     el: '#app',
-    data:{
-        messages:[
-            {
-                message:"Hey",
-                user:"John Doe"
-            },
-
-            {
-                message:"Hello !",
-                user:"Jane Doe"
-            },
-        ]
+    data: {
+        messages: []
     },
     methods: {
-        addMessage(message){
-            //Add to existing messages
-            this.messages.push(message);
-            //persist to the database
+        addMessage(message) {
+            // Add to existing messages
+          
+
         }
     },
+    created() {  //database ma message cha vane page load hune bela nai sabai msg load garcha (mount garcha)
+        axios.get('/messages').then(response => { //.get('/messages') vaneko routes ko Route::get('/messages',); method call gareko 
+            this.messages = response.data; //Route::get('/messages',); ley return gareko value save garcha 
+        });
+    }
 });

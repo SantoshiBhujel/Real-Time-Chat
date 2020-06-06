@@ -1,5 +1,6 @@
 <?php
 
+use App\Message;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/chat', function () {
     return view('chat');
-})->name('chat');
+})->middleware('auth')->name('chat');
+
+
+Route::get('/messages', 'MessageController@index');
+
+
+Route::post('/messages','MessageController@store' );
 
 Auth::routes();
 

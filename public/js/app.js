@@ -1925,7 +1925,9 @@ __webpack_require__.r(__webpack_exports__);
     sendMessage: function sendMessage() {
       this.$emit('messagesent', {
         message: this.messageText,
-        user: "John Doe"
+        user: {
+          name: "Santoshi Bhujel"
+        }
       });
       this.messageText = '';
     }
@@ -1943,6 +1945,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -6472,7 +6477,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.chat-log .chat-message:nth-child(even){\n    background-color: #ccc;\n}\n", ""]);
+exports.push([module.i, "\n.chat-log .chat-message:nth-child(even){\n    background-color: #ccc;\n}\n.empty{\n    padding: 1rem;\n    text-align: center;\n}\n", ""]);
 
 // exports
 
@@ -38331,7 +38336,7 @@ var render = function() {
     _c(
       "button",
       { staticClass: "btn btn-primary", on: { click: _vm.sendMessage } },
-      [_vm._v("Send")]
+      [_vm._v(" Send ")]
     )
   ])
 }
@@ -38360,10 +38365,31 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "chat-log " },
-    _vm._l(_vm.messages, function(message) {
-      return _c("chat-message", { attrs: { message: message } })
-    }),
-    1
+    [
+      _vm._l(_vm.messages, function(message) {
+        return _c("chat-message", {
+          key: message.id,
+          attrs: { message: message }
+        })
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.messages.length === 0,
+              expression: "messages.length===0"
+            }
+          ],
+          staticClass: "empty"
+        },
+        [_vm._v("\n        Nothing here yet!\n    ")]
+      )
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -38391,7 +38417,7 @@ var render = function() {
   return _c("div", { staticClass: "chat-message" }, [
     _c("p", [_vm._v(_vm._s(_vm.message.message))]),
     _vm._v(" "),
-    _c("small", [_vm._v(_vm._s(_vm.message.user))])
+    _c("small", [_vm._v(_vm._s(_vm.message.user.name))])
   ])
 }
 var staticRenderFns = []
@@ -50648,19 +50674,20 @@ Vue.component('chat-composer', __webpack_require__(/*! ./components/ChatComposer
 var app = new Vue({
   el: '#app',
   data: {
-    messages: [{
-      message: "Hey",
-      user: "John Doe"
-    }, {
-      message: "Hello !",
-      user: "Jane Doe"
-    }]
+    messages: []
   },
   methods: {
-    addMessage: function addMessage(message) {
-      //Add to existing messages
-      this.messages.push(message); //persist to the database
+    addMessage: function addMessage(message) {// Add to existing messages
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    //database ma message cha vane page load hune bela nai sabai msg load garcha (mount garcha)
+    axios.get('/messages').then(function (response) {
+      //.get('/messages') vaneko routes ko Route::get('/messages',); method call gareko 
+      _this.messages = response.data; //Route::get('/messages',); ley return gareko value save garcha 
+    });
   }
 });
 
@@ -51059,8 +51086,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/code/RealTimeChat/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/code/RealTimeChat/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/santoshibhujel/Code/RealTimeChat/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/santoshibhujel/Code/RealTimeChat/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
