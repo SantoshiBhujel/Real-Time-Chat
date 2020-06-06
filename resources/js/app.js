@@ -43,8 +43,6 @@ const app = new Vue({
             axios.post('/messages',message).then((response)=> //calls the route::post('/messages)
             {                            
 
-            }).catch((error)=>{
-                console.log(error.response.data)
             });
         }
     },

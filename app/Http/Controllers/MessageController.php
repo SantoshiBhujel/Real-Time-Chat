@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use Illuminate\Http\Request;
+use App\Events\MessagePosted;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -21,20 +22,14 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $user=Auth::user();
-        $message= new Message([
-            'message'=> $request->message
+        $message= $user->messages()->create([
+            'message'=>$request->message
         ]);
-        
 
-        if($user->messages()->save($message))
-        {
-            return  response()->json(['status' => 'OK']);
-        }
-        else
-        {
-            return response()->json([
-                'status' => 'Error!'
-            ]);
-        }
+        //fire new message has been posted event 
+            event(new MessagePosted($message, $user));
+
+        return  response()->json(['status' => 'OK']);
+        
     }
 }
