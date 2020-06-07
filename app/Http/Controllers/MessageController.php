@@ -27,7 +27,7 @@ class MessageController extends Controller
         ]);
 
         //fire new message has been posted event 
-            event(new MessagePosted($message, $user));
+        broadcast(new MessagePosted($message, $user))->toOthers() ;
 
         return  response()->json(['status' => 'OK']);
         

@@ -1922,12 +1922,15 @@ __webpack_require__.r(__webpack_exports__);
       messageText: ''
     };
   },
+  props: {
+    username: String
+  },
   methods: {
     sendMessage: function sendMessage() {
       this.$emit('messagesent', {
         message: this.messageText,
         user: {
-          name: "Santoshi Bhujel"
+          name: this.username
         }
       });
       this.messageText = '';
@@ -56707,7 +56710,8 @@ Vue.component('chat-composer', __webpack_require__(/*! ./components/ChatComposer
 var app = new Vue({
   el: '#app',
   data: {
-    messages: []
+    messages: [],
+    usersInRoom: []
   },
   methods: {
     addMessage: function addMessage(message) {
@@ -56725,6 +56729,23 @@ var app = new Vue({
     axios.get('/messages').then(function (response) {
       //.get('/messages') vaneko routes ko Route::get('/messages',); method call gareko 
       _this.messages = response.data; //Route::get('/messages',); ley return gareko value save garcha 
+    });
+    Echo.join('chatroom').here(function (users) {
+      _this.usersInRoom = users;
+    }).joining(function (user) {
+      _this.usersInRoom.push(user);
+    }).leaving(function (user) {
+      _this.usersInRoom = _this.usersInRoom.filter(function (u) {
+        return u != user;
+      });
+    }).listen('MessagePosted', function (e) {
+      //handle event here
+      _this.messages.push({
+        message: e.message.message,
+        user: e.user
+      });
+
+      console.log(e);
     });
   }
 });
@@ -56773,9 +56794,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "41387cdebf0336c2dab7",
+  key: "122b7fbe11f1e68f0a96",
   cluster: "ap2",
-  forceTLS: true
+  forceTLS: false
 });
 
 /***/ }),

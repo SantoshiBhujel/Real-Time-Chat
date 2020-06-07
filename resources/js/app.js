@@ -32,7 +32,8 @@ Vue.component('chat-composer', require('./components/ChatComposer.vue').default)
 const app = new Vue({
     el: '#app',
     data: {
-        messages: []
+        messages: [],
+        usersInRoom: []
     }, 
     methods: {
         addMessage(message) {
@@ -42,7 +43,6 @@ const app = new Vue({
             // Store sent message to the database
             axios.post('/messages',message).then((response)=> //calls the route::post('/messages)
             {                            
-
             });
         }
     },
@@ -50,5 +50,24 @@ const app = new Vue({
         axios.get('/messages').then(response => { //.get('/messages') vaneko routes ko Route::get('/messages',); method call gareko 
          this.messages = response.data; //Route::get('/messages',); ley return gareko value save garcha 
         });
-    }
+
+        Echo.join('chatroom')
+            .here((users)=>{
+                this.usersInRoom  = users;
+            })
+            .joining((user)=>{
+                this.usersInRoom.push(user);
+            })
+            .leaving((user)=>{
+                this.usersInRoom = this.usersInRoom.filter(u=>u!=user )
+            })
+            .listen('MessagePosted',(e)=>{
+                //handle event here
+                this.messages.push( {
+                    message: e.message.message,
+                    user: e.user
+                });
+                console.log(e);
+            }); 
+    } 
 });

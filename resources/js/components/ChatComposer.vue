@@ -10,15 +10,19 @@
 export default {
     data() { 
         return {
-            messageText: ''
+            messageText: '',
         }
+    },
+    
+    props: {
+        username : String,
     },
     methods: {
         sendMessage() {
             this.$emit('messagesent', {
                 message: this.messageText,
                 user: {
-                    name: "Santoshi Bhujel"
+                    name: this.username
                 }
             });
             this.messageText = '';
