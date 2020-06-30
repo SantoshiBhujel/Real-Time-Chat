@@ -20,4 +20,4 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 
 Broadcast::channel('chatroom', function ($users) {
     return $users;
-});
+});  //app.js ko echo.join().here('users') ma users return garcha

@@ -83,3 +83,46 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+To create an Event
+    php artisan make:event MessagePosted
+
+Create account in pusher and get app key
+
+Save pusher keys in env file
+Install pusher dependencies:
+    composer require pusher/pusher-php-server "~4.0"
+
+
+ In bootstrap.js, Uncomment :
+    import Echo from "laravel-echo";
+
+    window.Pusher = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-channels-key'
+    });
+
+Modify (if necessary), as(access key from .env file):
+
+    import Echo from 'laravel-echo';
+
+    window.Pusher = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+        forceTLS: false
+    });
+
+While broadcasting, substitute the event function with the broadcast.
+
+Receiving broadcast:
+install pusher-js
+    npm install --save laravel-echo pusher-js
+
